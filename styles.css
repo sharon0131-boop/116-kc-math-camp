@@ -17,3 +17,66 @@
 dialog{border:0;border-radius:16px;padding:0;width:min(620px,calc(100vw - 28px));box-shadow:0 20px 80px rgba(12,34,50,.28);color:var(--ink)}dialog::backdrop{background:rgba(19,37,53,.46)}.dialog-head{padding:18px 22px;background:var(--navy);color:white;display:flex;justify-content:space-between;align-items:flex-start}.dialog-head h3{margin:0;font-size:16px;line-height:1.4}.dialog-head small{display:block;color:#c1d0d8;font-size:10px;margin-top:4px}.close{background:transparent;border:0;color:white;font-size:22px;line-height:1}.form{padding:20px 22px;display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}.field label{font-size:11px;color:#647583;font-weight:700}.field input,.field select,.field textarea{border:1px solid #dbe3e8;border-radius:8px;padding:9px 10px;background:#fff;color:var(--ink);font-size:12px}.field textarea{min-height:90px;resize:vertical}.dialog-actions{padding:0 22px 20px;display:flex;justify-content:space-between;gap:8px}.danger{color:#a54843;border:1px solid #efd3d1;background:white;border-radius:8px;padding:8px 11px;font-size:11px}.save{background:var(--teal);border:0;color:white;border-radius:8px;padding:9px 16px;font-size:12px;font-weight:700}.footnote{margin-top:18px;color:#8996a0;font-size:10px;text-align:center}
 @media(max-width:900px){.metrics{grid-template-columns:repeat(3,1fr)}.teams{grid-template-columns:1fr}.grid-two{grid-template-columns:1fr}.task-table th:nth-child(3),.task-table td:nth-child(3){display:none}}
 @media(max-width:600px){.topbar{height:auto;padding:13px 16px}.brand h1{font-size:15px}.top-actions{gap:5px}.save-state{display:none}.top-btn{padding:7px 8px}.shell{padding:18px 14px 44px}.hero{display:block}.hero h2{font-size:21px}.camp-chip{display:inline-block;margin-top:12px}.metrics{grid-template-columns:repeat(2,1fr);gap:8px}.metric{min-height:81px;padding:12px}.metric .value{font-size:22px}.nav{margin:17px 0}.nav button{padding:10px 12px;font-size:12px}.toolbar .search{min-width:100%;flex-basis:100%}.timeline{grid-template-columns:1fr}.task-table th:nth-child(4),.task-table td:nth-child(4){display:none}.task-table th,.task-table td{padding:9px 8px}.form{grid-template-columns:1fr;padding:16px}.field.full{grid-column:auto}.dialog-head{padding:15px 17px}.dialog-actions{padding:0 17px 17px}}
+
+/* Task list: title and notes in one cell */
+.task-table .task-title{font-weight:700;overflow-wrap:anywhere}
+.task-table .notes-cell{margin-top:6px;color:var(--muted);font-size:11px;font-weight:400;line-height:1.6;white-space:normal;overflow-wrap:anywhere}
+
+/* Keep metadata compact and give the remaining space to task details. */
+.task-table th:nth-child(-n+7),
+.task-table td:nth-child(-n+7){width:1%;white-space:nowrap}
+.task-table th:last-child,
+.task-table td:last-child{width:auto}
+.task-table td{vertical-align:top}
+
+/* Emphasize task metadata. */
+.task-table th:nth-child(3),.task-table th:nth-child(5),
+.task-table th:nth-child(6),.task-table th:nth-child(7){color:var(--navy);font-size:12px;font-weight:700}
+.task-table td:nth-child(3) .tag{font-size:12px;font-weight:700;padding:5px 10px;color:#254b63;background:#e5eef4}
+.task-table td:nth-child(5) .status{font-size:12px;padding:5px 10px;font-weight:700;border:1px solid currentColor}
+.task-table td:nth-child(6),.task-table td:nth-child(7){font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;color:#244d68;background:#f2f6fa}
+.task-table td:nth-child(7){color:#795015;background:#fff8ec}
+
+/* Timeline metadata badges */
+.timeline-meta{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 12px}
+.timeline-badge,.timeline-meta .status{display:inline-block;font-size:13px;font-weight:700;line-height:1.5;padding:6px 10px;border-radius:6px}
+.timeline-start{color:#fff;background:#285c80}
+.timeline-end{color:#fff;background:#945114}
+.timeline-team{color:#fff;background:#326d65}
+.timeline-meta .status{border:1px solid currentColor}
+.month-item b{font-size:14px;font-weight:700}
+.month-item{padding:16px 0}
+
+/* Task list: not started status in red. */
+.task-table .status.未開始{color:#b42332;background:#fdebed;border-color:#d75b68}
+/* Timeline: compact labels with a shared blue gradient. */
+.timeline-meta{gap:6px;margin:8px 0 10px}
+.timeline-meta .timeline-badge,
+.timeline-meta .status{font-size:12px;padding:4px 8px;line-height:1.4;border:0;border-radius:5px;color:#fff;background:linear-gradient(90deg,#285c80 0%,#507fa0 100%)}
+
+.overview-task-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px;align-items:start}
+.overview-task-grid h3{display:flex;justify-content:space-between;gap:8px}
+.overview-task-grid h3 span{font-size:12px;color:var(--muted);white-space:nowrap}
+.overview-task{display:block;width:100%;text-align:left;border:0;border-top:1px solid var(--line);background:transparent;padding:12px 0;color:var(--ink);overflow-wrap:anywhere}
+.overview-task:hover{background:#f2f6fa}
+.overview-task strong{display:block;font-size:13px;color:var(--navy)}
+.overview-task span,.overview-task small{display:block;font-size:11px;margin-top:5px;color:#617484}
+@media(max-width:900px){.overview-task-grid{grid-template-columns:1fr}}
+
+/* 專案總覽：備註與日期 */
+.overview-task .overview-task-note{font-size:12px;line-height:1.65;color:#526676;white-space:pre-wrap;margin-top:7px}
+.overview-task .overview-task-dates{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.overview-task .overview-task-date{display:inline-block;margin:0;padding:5px 8px;border:1px solid #c9d9e6;border-radius:6px;background:#eaf1f7;color:#284b68;font-size:12px;font-weight:700;line-height:1.4;font-variant-numeric:tabular-nums}
+
+/* 專案總覽提醒事項 */
+.reminders-panel{margin-bottom:20px}
+.reminders-panel .section-head{margin-bottom:10px}
+.reminder-card{display:flex;gap:12px;padding:15px 18px;margin-top:9px;border:1px solid #ead8a7;border-radius:12px;background:#fff8e8}
+.reminder-number{display:grid;place-items:center;flex:0 0 26px;height:26px;border-radius:50%;background:#f2dfad;color:#73551b;font-size:13px;font-weight:700}
+.reminder-content{min-width:0;overflow-wrap:anywhere}
+.reminder-content strong{display:block;color:#664e24;font-size:14px;line-height:1.6}
+.reminder-content p{margin:5px 0 0;color:#786747;font-size:13px;line-height:1.7;white-space:pre-wrap}
+#reminderDialog{width:min(620px,92vw);max-height:90vh;overflow-y:auto}
+#reminderDialog textarea{margin-top:8px;min-height:75px}
+#reminderMessage{margin:0;padding:0 24px;color:#a33b32;font-size:13px;line-height:1.6}
+#saveReminders:disabled{opacity:.6;cursor:wait}

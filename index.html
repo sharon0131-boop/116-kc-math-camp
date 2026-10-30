@@ -9,32 +9,34 @@
 <body>
 <header class="topbar">
   <div class="brand"><div class="brand-mark">卓</div><div><h1>卓越盃專案盤點台</h1><small>2027 資優數學營</small></div></div>
-  <div class="top-actions"><span class="save-state" id="saveState">載入專案資料…</span><button class="top-btn" id="exportBtn">匯出備份</button><button class="top-btn" id="importBtn">匯入資料</button><input id="importFile" type="file" accept="application/json,.json" hidden></div>
+  <div class="top-actions"><span class="save-state" id="saveState">載入專案資料…</span></div>
 </header>
 <main class="shell">
-  <section class="hero"><div><div class="eyebrow">PROJECT DESK</div><h2 id="pageTitle">全案狀況</h2><p id="pageSubtitle">先看需要決策與推進的事項，再進入任務明細。</p></div><div class="camp-chip">營期日期待確認｜1/30 或 1/31</div></section>
+  <section class="hero"><div><div class="eyebrow">PROJECT DESK</div><h2 id="pageTitle">全案狀況</h2><p id="pageSubtitle">先看需要決策與推進的事項，再進入任務明細。</p></div></section>
   <nav class="nav" aria-label="主要頁面"><button class="active" data-view="overview">專案總覽</button><button data-view="tasks">任務清單</button><button data-view="timeline">時程盤點</button></nav>
   <section class="panel active" id="overviewPanel">
-    <div class="alert"><div class="alert-icon">!</div><div><strong>待決事項：確認 2027 營期終日</strong><p>兩份來源資料分別標示 1/30 與 1/31。確認後再同步更新對外文宣、學校需求與行前安排。</p></div></div>
+    <div class="reminders-panel"><div class="section-head"><h3>提醒事項</h3><button type="button" class="secondary" id="editReminders" disabled>編輯提醒</button></div><div id="reminderList" aria-live="polite">提醒事項載入中…</div></div>
     <div class="metrics" id="metrics"></div>
     <div class="section-head"><h3>負責單位</h3><span>區塊依來源表的討論對象分類</span></div>
     <div class="teams" id="teamCards"></div>
-    <div class="grid-two">
-      <div class="box"><h3>現階段建議先處理</h3><div id="focusList"></div></div>
-      <div class="box"><h3>七天內到期</h3><div id="upcomingList"></div></div>
+    <div class="overview-task-grid">
+      <div class="box"><h3>逾期未完成的任務 <span id="overdueListCount"></span></h3><div id="overdueList"></div></div>
+      <div class="box"><h3>七天內到期的任務 <span id="upcomingListCount"></span></h3><div id="upcomingList"></div></div>
+      <div class="box"><h3>待補開始日期的任務 <span id="noStartListCount"></span></h3><div id="noStartList"></div></div>
     </div>
   </section>
   <section class="panel" id="tasksPanel">
     <div class="section-head"><h3>任務清單</h3><span>點選任務可更新日期、負責人與進度</span></div>
     <div class="toolbar">
-      <input class="control search" id="searchInput" placeholder="搜尋任務、負責人或備註…" aria-label="搜尋任務">
+      <input class="control search" id="searchInput" placeholder="搜尋工作項目、單位或備註…" aria-label="搜尋任務">
       <select class="control" id="statusFilter"><option value="">所有狀態</option></select>
       <select class="control" id="phaseFilter"><option value="">所有類型</option></select>
       <button class="primary" id="addTask">＋ 新增任務</button>
     </div>
     <div class="filters" id="teamFilters"></div>
-    <div class="result-bar"><span id="resultCount"></span><div class="page-controls" id="pageControls"></div></div>
-    <div class="table-wrap"><table class="task-table"><thead><tr><th>工作項目</th><th>負責單位</th><th>類型</th><th>預估開始日</th><th>實際完成日</th><th>負責人</th><th>狀態</th></tr></thead><tbody id="taskRows"></tbody></table></div>
+    <div class="result-bar"><span id="resultCount"></span></div>
+    <!-- 工作項目與相關備註合併顯示 -->
+    <div class="table-wrap"><table class="task-table"><thead><tr><th>ID</th><th>類型</th><th>單位</th><th>窗口</th><th>狀態</th><th>開始日期</th><th>截止日期</th><th>工作項目／相關備註</th></tr></thead><tbody id="taskRows"></tbody></table></div>
   </section>
   <section class="panel" id="timelinePanel">
     <div class="section-head"><h3>時程盤點</h3><span>按年度月份整理來源時程；空白日期需補排</span></div>
@@ -46,20 +48,46 @@
   <div class="dialog-head"><div><h3 id="dialogTitle">編輯任務</h3><small id="dialogMeta"></small></div><button class="close" id="closeDialog" aria-label="關閉">×</button></div>
   <form id="taskForm">
     <div class="form">
-      <div class="field full"><label for="fTitle">工作項目</label><input id="fTitle" required></div>
-      <div class="field"><label for="fType">類型</label><select id="fType"></select></div>
-      <div class="field"><label for="fTeam">負責單位</label><select id="fTeam"></select></div>
-      <div class="field"><label for="fStatus">狀態</label><select id="fStatus"></select></div>
-      <div class="field"><label for="fOwner">執行負責人</label><input id="fOwner" placeholder="尚未指派"></div>
-      <div class="field"><label for="fContact">對接窗口／討論對象</label><input id="fContact"></div>
-      <div class="field"><label for="fStart">預估開始日</label><input id="fStart" type="date"></div>
-      <div class="field"><label for="fEnd">實際完成日</label><input id="fEnd" type="date"></div>
-      <div class="field full"><label for="fDependency">待回覆對象</label><input id="fDependency" placeholder="例如：收到北市大課程內容"></div>
-      <div class="field full"><label for="fNotes">備註</label><textarea id="fNotes"></textarea></div>
+      <div class="field">
+        <label for="fTeam">單位</label>
+        <select id="fTeam"></select>
+      </div>
+      <div class="field">
+        <label for="fContact">窗口</label>
+        <input id="fContact" placeholder="請輸入窗口">
+      </div>
+      <div class="field">
+        <label for="fType">類型</label>
+        <select id="fType"></select>
+      </div>
+      <div class="field">
+        <label for="fStatus">狀態</label>
+        <select id="fStatus"></select>
+      </div>
+      <div class="field full">
+        <label for="fTitle">工作項目</label>
+        <input id="fTitle" required placeholder="請輸入工作項目名稱">
+      </div>
+      <div class="field">
+        <label for="fStart">開始日期</label>
+        <input id="fStart" type="date">
+      </div>
+      <div class="field">
+        <label for="fEnd">截止日期</label>
+        <input id="fEnd" type="date">
+      </div>
+      <div class="field full">
+        <label for="fNotes">相關備註</label>
+        <textarea id="fNotes" placeholder="請輸入相關備註..."></textarea>
+      </div>
     </div>
     <div class="dialog-actions"><button type="button" class="danger" id="deleteTask">刪除此任務</button><div><button type="button" class="secondary" id="cancelDialog">取消</button> <button type="submit" class="save">儲存變更</button></div></div>
   </form>
 </dialog>
-<script src="app.js"></script>
+<dialog id="reminderDialog"><div class="dialog-head"><div><h3>編輯提醒事項</h3><small>最多三筆；標題與說明皆留白即可移除該筆。</small></div><button type="button" class="close" id="closeReminderDialog" aria-label="關閉">×</button></div><form id="reminderForm"><div class="form"><div class="field full"><label for="reminderTitle1">提醒 1｜標題</label><input id="reminderTitle1" maxlength="100" placeholder="輸入提醒標題"><textarea id="reminderDetail1" maxlength="1000" aria-label="提醒 1 說明" placeholder="補充說明，可留白"></textarea></div><div class="field full"><label for="reminderTitle2">提醒 2｜標題</label><input id="reminderTitle2" maxlength="100" placeholder="輸入提醒標題"><textarea id="reminderDetail2" maxlength="1000" aria-label="提醒 2 說明" placeholder="補充說明，可留白"></textarea></div><div class="field full"><label for="reminderTitle3">提醒 3｜標題</label><input id="reminderTitle3" maxlength="100" placeholder="輸入提醒標題"><textarea id="reminderDetail3" maxlength="1000" aria-label="提醒 3 說明" placeholder="補充說明，可留白"></textarea></div></div><p id="reminderMessage" role="status"></p><div class="dialog-actions"><span></span><div><button type="button" class="secondary" id="cancelReminderDialog">取消</button> <button type="submit" class="save" id="saveReminders">儲存提醒</button></div></div></form></dialog>
+<script defer src="google-sheet.js"></script>
+<script defer src="overview.js"></script>
+<script defer src="tasks.js"></script>
+<script defer src="timeline.js"></script>
 </body>
 </html>
